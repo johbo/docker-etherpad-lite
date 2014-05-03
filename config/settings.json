@@ -5,7 +5,7 @@
 */
 {
   // Name your instance!
-  "title": "Docker Etherpad",
+  "title": "Etherpad",
 
   // favicon default name
   // alternatively, set up a fully specified Url to your own favicon
@@ -17,7 +17,8 @@
 
   // Session Key, used for reconnecting user sessions
   // Set this to a secure string at least 10 characters long.  Do not share this value.
-  "sessionKey" : "ieghoe9jeeZ1doozaDahb5ieTi6eereepahCaeph5Usoosahth",
+  // TODO: figure out how to inject this from the outside
+  "sessionKey" : "thesessionkey",
 
   /*
   // Node native SSL support
@@ -52,7 +53,7 @@
   */
 
   //the default text of a pad
-  "defaultPadText" : "Welcome to this Etherpad!\n\nFeel free to use it as you see it fit for real time collaboration on text documents.\n\nPlease be aware, that there are no backups of this service.\n"
+  "defaultPadText" : "Welcome to Etherpad!\n\nThis pad text is synchronized as you type, so that everyone viewing this page sees the same text. This allows you to collaborate seamlessly on documents!\n\nGet involved with Etherpad at http:\/\/etherpad.org\n",
 
   /* Users must have a session to access pads. This effectively allows only group pads to be accessed. */
   "requireSession" : false,
@@ -87,11 +88,9 @@
 
   /* Users for basic authentication. is_admin = true gives access to /admin.
      If you do not uncomment this, /admin will not be available! */
-
-  // TODO: Password should be passed in from the outside
   "users": {
     "admin": {
-      "password": "etherpadadmin",
+      "password": "adminetherpad",
       "is_admin": true
     }
   },

@@ -10,31 +10,35 @@ MAINTAINER Johannes Bornhold <johannes@bornhold.name>
 
 
 # Prepare etherpad
-RUN useradd -m etherpad
-WORKDIR /home/etherpad
+RUN mkdir /src
+WORKDIR /src
 
 # Dependencies based on docs
-RUN apt-get -y install \
+RUN DEBIAN_FRONTEND=noninteractive apt-get -y install \
     gzip git-core curl python libssl-dev pkg-config build-essential
 
 RUN wget https://github.com/ether/etherpad-lite/archive/master.zip &&\
     unzip master &&\
     rm -f master.zip &&\
-    mv etherpad-lite-master src &&\
-    sed '/installDeps.sh/d' bin/run.sh -i &&\
-    chown -R ehterpad: src
+    mv etherpad-lite-master etherpad &&\
+    sed '/installDeps.sh/d' etherpad/bin/run.sh -i
 
-# Add the settings
-ADD config/settings.json settings.json
+WORKDIR /src/etherpad
 
 # Install dependencies
-# TODO: install plugins?
 RUN bin/installDeps.sh
+RUN npm install sqlite3 \
+        ep_syntaxhighlighting \
+        ep_monospace_default \
+        ep_print
 
+# Install plugins
+# RUN npm install ep_NAME
 
-USER etherpad
+# Add the settings
+ADD config/settings.json /src/etherpad/settings.json
+
 EXPOSE 9001
-WORKDIR /home/etherpad/src
 
 # TODO: Wrapper script to inject password and session key from the outside
-CMD ["bin/run.sh"]
+CMD ["bin/run.sh", "--root"]
