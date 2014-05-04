@@ -27,18 +27,19 @@ WORKDIR /src/etherpad
 
 # Install dependencies
 RUN bin/installDeps.sh
-RUN npm install sqlite3 \
-        ep_syntaxhighlighting \
-        ep_monospace_default \
-        ep_print
-
-# Install plugins
-# RUN npm install ep_NAME
+RUN npm install sqlite3
 
 # Add the settings
-ADD config/settings.json /src/etherpad/settings.json
+ADD config/ /src/etherpad/
+
+# Install plugins
+RUN npm install \
+    ep_headings \
+    ep_monospace_default \
+    ep_print
+
 
 EXPOSE 9001
+VOLUME ["/data"]
 
-# TODO: Wrapper script to inject password and session key from the outside
-CMD ["bin/run.sh", "--root"]
+CMD ["bin/configure_and_run.sh"]
