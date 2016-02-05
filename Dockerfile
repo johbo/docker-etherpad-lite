@@ -4,7 +4,7 @@
 # Based on instructions from https://github.com/ether/etherpad-lite
 #
 
-FROM dockerfile/nodejs
+FROM node:0.12
 
 MAINTAINER Johannes Bornhold <johannes@bornhold.name>
 
@@ -14,8 +14,8 @@ RUN mkdir /src
 WORKDIR /src
 
 # Dependencies based on docs
-RUN DEBIAN_FRONTEND=noninteractive apt-get -y install \
-    gzip git-core curl python libssl-dev pkg-config build-essential
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get -y install \
+    gzip git-core curl python libssl-dev pkg-config build-essential zip unzip
 
 RUN wget https://github.com/ether/etherpad-lite/archive/master.zip &&\
     unzip master &&\
